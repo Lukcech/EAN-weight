@@ -1,0 +1,55 @@
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const productForm = document.querySelector('[data-product-form]');
+    if (!productForm) return;
+
+    const updateDetails = (variant) => {
+      if (!variant) return;
+
+      const eanContainer = document.querySelector('.product-ean');
+      const weightContainer = document.querySelector('.product-weight');
+      if (!eanContainer || !weightContainer) return;
+
+      const eanValueEl = eanContainer.querySelector('[data-ean-value]');
+      const weightValueEl = weightContainer.querySelector('[data-weight-value]');
+
+      const data = window.myProductData ? window.myProductData[variant.id] : null;
+      if (!data) return;
+
+      // EAN
+      if (data.barcode) {
+        eanValueEl.textContent = data.barcode;
+        eanContainer.style.display = 'flex';
+      } else {
+        eanContainer.style.display = 'none';
+      }
+
+      // Hmotnost
+      if (data.weight) {
+        const weightInKg = data.weight / 1000;
+        weightValueEl.textContent = `${weightInKg.toLocaleString('cs-CZ', { minimumFractionDigits: 3, maximumFractionDigits: 3 })} kg`;
+        weightContainer.style.display = 'flex';
+      } else {
+        weightContainer.style.display = 'none';
+      }
+    };
+
+  
+    productForm.addEventListener('change', (event) => {
+    const newVariant = event.dataset.variant;
+      if (newVariant) {
+        updateDetails(newVariant);
+      } 
+    });
+
+    const initialVariantId = {{ product.selected_or_first_available_variant.id | default: 'null' }};
+    if (initialVariantId && window.myProductData[initialVariantId]) {
+       const initialVariant = { 
+          id: initialVariantId, 
+          barcode: window.myProductData[initialVariantId].barcode,
+          weight: window.myProductData[initialVariantId].weight
+        };
+       updateDetails(initialVariant);
+    }
+  });
+</script>
