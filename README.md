@@ -1,4 +1,4 @@
-Samozřejmě. Zde je návrh README.md textu v angličtině pro funkci zobrazování EANu a hmotnosti.
+
 
 Dynamic EAN and Weight Display
 This feature dynamically displays the EAN (Barcode) and Weight for the selected product variant on the Shopify product page. The information updates in real-time when the customer selects a different product variant.
